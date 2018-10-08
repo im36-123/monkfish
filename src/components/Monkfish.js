@@ -11,7 +11,7 @@ const Floors = props => (
             type="radio"
             name="floor"
             value={floor}
-            onClick={props.handleChange}
+            onClick={props.handleChangeFloor}
           />
           {floor}
         </label>
@@ -47,7 +47,6 @@ const Banners = props => (
   <div>
     {props.banners
       .filter(({ id, shouldHide }) => {
-        // const { id, shouldHide } = banner;
         const selectedSizesMatch = props.selectedSizes.includes(id);
         const shouldHideMatch = !shouldHide.includes(props.selectedFloor);
 
@@ -90,17 +89,35 @@ class Monkfish extends Component {
           : prevState.selectedSizes.concat([value])
       };
     });
+    this.formatToUrl();
+  };
+
+  handleChangeFloor = e => {
+    const value = e.target.value;
+
+    this.setState({ selectedFloor: value });
+    this.formatToUrl();
   };
 
   handleChange = e => {
+    const value = e.target.value;
+
+    this.setState({ fileName: value });
+    this.formatToUrl();
+  };
+
+  formatToUrl = () => {
+    console.log("formatToUrl");
     this.setState({
       banners: this.props.banners.map(banner => {
+        const url = banner.url
+          .replace("##FLOOR_NAME##", this.state.selectedFloor)
+          .replace("##FILE_NAME##", this.state.fileName);
         return {
           ...banner,
-          url: banner.url.replace("##FLOOR_NAME##", e.target.value)
+          url
         };
-      }),
-      selectedFloor: e.target.value
+      })
     });
   };
 
@@ -108,7 +125,10 @@ class Monkfish extends Component {
     return (
       <div>
         {/* フロアボタン */}
-        <Floors floors={this.props.floors} handleChange={this.handleChange} />
+        <Floors
+          floors={this.props.floors}
+          handleChangeFloor={this.handleChangeFloor}
+        />
 
         {/* サイズボタン */}
         <Sizes
@@ -126,7 +146,11 @@ class Monkfish extends Component {
 
         {/* 文字入力 */}
         <div>
-          <input type="text" placeholder="ファイル名" />
+          <input
+            type="text"
+            placeholder="ファイル名"
+            onChange={this.handleChange}
+          />
         </div>
       </div>
     );
@@ -139,24 +163,25 @@ Monkfish.defaultProps = {
     {
       id: uuid(),
       size: "100 x 100",
-      url: "http://100 x 100_##FLOOR_NAME##",
+      url: "http://100 x 100_##FLOOR_NAME##__##FILE_NAME##",
       shouldHide: ["pc"]
     },
     {
       id: uuid(),
       size: "200 x 200",
-      url: "http://200 x 200_##FLOOR_NAME##",
+      url: "http://200 x 200_##FLOOR_NAME##__##FILE_NAME##",
       shouldHide: []
     },
     {
       id: uuid(),
       size: "300 x 300",
-      url: "http://300 x 300_##FLOOR_NAME##",
+      url: "http://300 x 300_##FLOOR_NAME##__##FILE_NAME##",
       shouldHide: []
     }
   ],
   selectedSizes: [],
-  selectedFloor: ""
+  selectedFloor: "",
+  fileName: ""
 };
 
 export default Monkfish;
