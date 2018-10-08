@@ -1,6 +1,56 @@
 import React, { Component } from "react";
 import uuid from "uuid";
 
+const Floors = props => (
+  <div>
+    {props.floors.map(floor => {
+      return (
+        <label key={floor}>
+          <input
+            type="radio"
+            name="floor"
+            value={floor}
+            onClick={props.handleChange}
+          />
+          {floor}
+        </label>
+      );
+    })}
+  </div>
+);
+
+const Sizes = props => (
+  <div>
+    {props.banners.map(({ id, size }) => {
+      return (
+        <label key={id}>
+          <input
+            type="checkbox"
+            name="size"
+            value={id}
+            onClick={props.handlePick}
+          />
+          {size}
+        </label>
+      );
+    })}
+  </div>
+);
+
+const Banners = props => (
+  <div>
+    {props.banners.map(({ id, url }) => {
+      if (props.canShow.includes(id)) {
+        return (
+          <div key={id}>
+            <p>{url}</p>
+          </div>
+        );
+      }
+    })}
+  </div>
+);
+
 class Monkfish extends Component {
   constructor(props) {
     super(props);
@@ -21,51 +71,19 @@ class Monkfish extends Component {
   render() {
     return (
       <div>
-        {/* floor 選択ボタン */}
-        {this.props.floors.map(floor => {
-          return (
-            <label key={floor}>
-              <input
-                type="radio"
-                name="floor"
-                value={floor}
-                onClick={this.onRadiobuttonHandler}
-              />
-              {floor}
-            </label>
-          );
-        })}
+        {/* フロアボタン */}
+        <Floors floors={this.props.floors} handleChange={this.handleChange} />
 
         {/* サイズボタン */}
-        {this.props.banners.map(({ id, size }) => {
-          return (
-            <label key={id}>
-              <input
-                type="checkbox"
-                name="size"
-                value={id}
-                onClick={this.onCheckboxHandler}
-              />
-              {size}
-            </label>
-          );
-        })}
+        <Sizes banners={this.state.banners} handlePick={this.handlePick} />
 
         {/* URL を表示する */}
-        {this.state.banners.map(banner => {
-          if (this.state.canShow.includes(banner.id)) {
-            return (
-              <div key={banner.id}>
-                <p>{banner.url}</p>
-              </div>
-            );
-          }
-        })}
+        <Banners banners={this.state.banners} canShow={this.state.canShow} />
       </div>
     );
   }
 
-  onCheckboxHandler = e => {
+  handlePick = e => {
     const { value } = e.target;
 
     this.setState(prevState => {
@@ -77,7 +95,8 @@ class Monkfish extends Component {
     });
   };
 
-  onRadiobuttonHandler = e => {
+  handleChange = e => {
+    console.log(e.value);
     this.setState({
       banners: this.props.banners.map(banner => {
         return {
