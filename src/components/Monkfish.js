@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import uuid from "uuid";
+import "../styles/style.css";
 
 const Floors = props => (
   <div>
@@ -22,34 +23,43 @@ const Floors = props => (
 const Sizes = props => (
   <div>
     {props.banners.map(({ id, size, shouldHide }) => {
-      if (!shouldHide.includes(props.selectedFloor)) {
-        return (
-          <label key={id}>
-            <input
-              type="checkbox"
-              name="size"
-              value={id}
-              onClick={props.handlePick}
-            />
-            {size}
-          </label>
-        );
-      }
+      return (
+        <label
+          key={id}
+          className={
+            shouldHide.includes(props.selectedFloor) ? "is-hide" : undefined
+          }
+        >
+          <input
+            type="checkbox"
+            name="size"
+            value={id}
+            onClick={props.handlePick}
+          />
+          {size}
+        </label>
+      );
     })}
   </div>
 );
 
 const Banners = props => (
   <div>
-    {props.banners.map(({ id, url }) => {
-      if (props.canShow.includes(id)) {
+    {props.banners
+      .filter(({ id, shouldHide }) => {
+        // const { id, shouldHide } = banner;
+        const selectedSizesMatch = props.selectedSizes.includes(id);
+        const shouldHideMatch = !shouldHide.includes(props.selectedFloor);
+
+        return selectedSizesMatch && shouldHideMatch;
+      })
+      .map(({ id, url }) => {
         return (
           <div key={id}>
             <p>{url}</p>
           </div>
         );
-      }
-    })}
+      })}
   </div>
 );
 
@@ -84,7 +94,11 @@ class Monkfish extends Component {
         />
 
         {/* URL を表示する */}
-        <Banners banners={this.state.banners} canShow={this.state.canShow} />
+        <Banners
+          banners={this.state.banners}
+          selectedSizes={this.state.selectedSizes}
+          selectedFloor={this.state.selectedFloor}
+        />
       </div>
     );
   }
@@ -94,9 +108,9 @@ class Monkfish extends Component {
 
     this.setState(prevState => {
       return {
-        canShow: prevState.canShow.includes(value)
-          ? prevState.canShow.filter(element => element !== value)
-          : prevState.canShow.concat([value])
+        selectedSizes: prevState.selectedSizes.includes(value)
+          ? prevState.selectedSizes.filter(element => element !== value)
+          : prevState.selectedSizes.concat([value])
       };
     });
   };
@@ -136,7 +150,7 @@ Monkfish.defaultProps = {
       shouldHide: []
     }
   ],
-  canShow: [],
+  selectedSizes: [],
   selectedFloor: ""
 };
 
