@@ -21,18 +21,20 @@ const Floors = props => (
 
 const Sizes = props => (
   <div>
-    {props.banners.map(({ id, size }) => {
-      return (
-        <label key={id}>
-          <input
-            type="checkbox"
-            name="size"
-            value={id}
-            onClick={props.handlePick}
-          />
-          {size}
-        </label>
-      );
+    {props.banners.map(({ id, size, shouldHide }) => {
+      if (!shouldHide.includes(props.selectedFloor)) {
+        return (
+          <label key={id}>
+            <input
+              type="checkbox"
+              name="size"
+              value={id}
+              onClick={props.handlePick}
+            />
+            {size}
+          </label>
+        );
+      }
     })}
   </div>
 );
@@ -60,7 +62,7 @@ class Monkfish extends Component {
   }
 
   componentDidMount() {
-    this.setState({ banners: this.props.banners, canShow: [] });
+    this.setState({ ...this.props });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -75,7 +77,11 @@ class Monkfish extends Component {
         <Floors floors={this.props.floors} handleChange={this.handleChange} />
 
         {/* サイズボタン */}
-        <Sizes banners={this.state.banners} handlePick={this.handlePick} />
+        <Sizes
+          banners={this.state.banners}
+          selectedFloor={this.state.selectedFloor}
+          handlePick={this.handlePick}
+        />
 
         {/* URL を表示する */}
         <Banners banners={this.state.banners} canShow={this.state.canShow} />
@@ -96,14 +102,14 @@ class Monkfish extends Component {
   };
 
   handleChange = e => {
-    console.log(e.value);
     this.setState({
       banners: this.props.banners.map(banner => {
         return {
           ...banner,
-          url: banner.url.replace("##BANNER_NAME##", e.target.value)
+          url: banner.url.replace("##FLOOR_NAME##", e.target.value)
         };
-      })
+      }),
+      selectedFloor: e.target.value
     });
   };
 }
@@ -114,23 +120,24 @@ Monkfish.defaultProps = {
     {
       id: uuid(),
       size: "100 x 100",
-      url: "http://100 x 100_##BANNER_NAME##",
+      url: "http://100 x 100_##FLOOR_NAME##",
       shouldHide: ["pc"]
     },
     {
       id: uuid(),
       size: "200 x 200",
-      url: "http://200 x 200_##BANNER_NAME##",
+      url: "http://200 x 200_##FLOOR_NAME##",
       shouldHide: []
     },
     {
       id: uuid(),
       size: "300 x 300",
-      url: "http://300 x 300_##BANNER_NAME##",
+      url: "http://300 x 300_##FLOOR_NAME##",
       shouldHide: []
     }
   ],
-  canShow: []
+  canShow: [],
+  selectedFloor: ""
 };
 
 export default Monkfish;
