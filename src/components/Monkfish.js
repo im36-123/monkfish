@@ -80,29 +80,6 @@ class Monkfish extends Component {
     console.log("prevState: ", prevState);
   }
 
-  render() {
-    return (
-      <div>
-        {/* フロアボタン */}
-        <Floors floors={this.props.floors} handleChange={this.handleChange} />
-
-        {/* サイズボタン */}
-        <Sizes
-          banners={this.state.banners}
-          selectedFloor={this.state.selectedFloor}
-          handlePick={this.handlePick}
-        />
-
-        {/* URL を表示する */}
-        <Banners
-          banners={this.state.banners}
-          selectedSizes={this.state.selectedSizes}
-          selectedFloor={this.state.selectedFloor}
-        />
-      </div>
-    );
-  }
-
   handlePick = e => {
     const { value } = e.target;
 
@@ -126,6 +103,34 @@ class Monkfish extends Component {
       selectedFloor: e.target.value
     });
   };
+
+  render() {
+    return (
+      <div>
+        {/* フロアボタン */}
+        <Floors floors={this.props.floors} handleChange={this.handleChange} />
+
+        {/* サイズボタン */}
+        <Sizes
+          banners={this.state.banners}
+          selectedFloor={this.state.selectedFloor}
+          handlePick={this.handlePick}
+        />
+
+        {/* URL を表示する */}
+        <Banners
+          banners={this.state.banners}
+          selectedSizes={this.state.selectedSizes}
+          selectedFloor={this.state.selectedFloor}
+        />
+
+        {/* 文字入力 */}
+        <div>
+          <input type="text" placeholder="ファイル名" />
+        </div>
+      </div>
+    );
+  }
 }
 
 Monkfish.defaultProps = {
