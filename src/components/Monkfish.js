@@ -101,15 +101,15 @@ class Monkfish extends Component {
 
     switch (name) {
       case "thumbnail":
-        this.setState({ selectedThumbnailExtentions: value });
+        this.setState({ selectedThumbnailExtention: value });
 
         break;
       case "floor":
         this.setState({ selectedFloor: value });
 
         break;
-      case "file_name":
-        this.setState({ fileName: value });
+      case "banner_name":
+        this.setState({ bannerName: value });
 
         break;
 
@@ -123,9 +123,21 @@ class Monkfish extends Component {
     console.log("formatToUrl");
     this.setState((state, props) => ({
       banners: props.banners.map(banner => {
+        const reg = /(.*)(?:\.([^.]+$))/;
+        const fileName = reg.test(state.bannerName)
+          ? state.bannerName.match(reg)[1]
+          : state.bannerName;
+        const fileExtention = reg.test(state.bannerName)
+          ? `.${state.bannerName.match(reg)[2]}`
+          : undefined;
+        const thumbnailExtention = state.selectedThumbnailExtention
+          ? `.${state.selectedThumbnailExtention}`
+          : fileExtention;
         const url = banner.url
           .replace("##FLOOR_NAME##", state.selectedFloor)
-          .replace("##FILE_NAME##", state.fileName);
+          .replace("##FILE_NAME##", fileName)
+          .replace("##EXTENTION##", fileExtention)
+          .replace("##THUMBNAIL_EXTENTION##", thumbnailExtention);
         return {
           ...banner,
           url
@@ -170,7 +182,7 @@ class Monkfish extends Component {
           <input
             type="text"
             placeholder="ファイル名"
-            name="file_name"
+            name="banner_name"
             onChange={this.handleChange}
           />
         </div>
@@ -212,8 +224,8 @@ Monkfish.defaultProps = {
   ],
   selectedSizes: [],
   selectedFloor: "",
-  fileName: "",
-  selectedThumbnailExtentions: ""
+  bannerName: "",
+  selectedThumbnailExtention: ""
 };
 
 export default Monkfish;
