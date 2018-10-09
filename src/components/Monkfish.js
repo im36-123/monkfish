@@ -79,12 +79,9 @@ class Monkfish extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      banners: []
+      banners: [],
+      selectedSizes: []
     };
-  }
-
-  componentDidMount() {
-    this.setState({ ...this.props });
   }
 
   componentDidUpdate(prevProps, prevState) {
