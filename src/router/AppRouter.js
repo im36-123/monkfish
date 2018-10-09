@@ -85,10 +85,12 @@ const AppRouter = () => {
           <Route
             path="/"
             render={() => <Monkfish banners={defaultPropsForCom.banners} />}
+            key="com"
             exact
           />
           <Route
             path="/cojp"
+            key="cojp"
             render={() => <Monkfish banners={defaultPropsForCojp.banners} />}
           />
         </Switch>
