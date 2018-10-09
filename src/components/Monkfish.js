@@ -2,23 +2,25 @@ import React, { Component } from "react";
 import uuid from "uuid";
 import "../styles/style.css";
 
-const Floors = props => (
-  <div>
-    {props.floors.map(floor => {
-      return (
-        <label key={floor}>
-          <input
-            type="radio"
-            name="floor"
-            value={floor}
-            onClick={props.handleChangeFloor}
-          />
-          {floor}
-        </label>
-      );
-    })}
-  </div>
-);
+const RadioButton = props => {
+  return (
+    <div>
+      {props.arr.map(item => {
+        return (
+          <label key={item}>
+            <input
+              type="radio"
+              name={props.name}
+              value={item}
+              onClick={props.handleChange}
+            />
+            {item}
+          </label>
+        );
+      })}
+    </div>
+  );
+};
 
 const Sizes = props => (
   <div>
@@ -92,42 +94,61 @@ class Monkfish extends Component {
     this.formatToUrl();
   };
 
-  handleChangeFloor = e => {
-    const value = e.target.value;
-
-    this.setState({ selectedFloor: value });
-    this.formatToUrl();
-  };
-
   handleChange = e => {
     const value = e.target.value;
+    const name = e.target.name;
+    console.log(value);
 
-    this.setState({ fileName: value });
+    switch (name) {
+      case "thumbnail":
+        this.setState({ selectedThumbnailExtentions: value });
+
+        break;
+      case "floor":
+        this.setState({ selectedFloor: value });
+
+        break;
+      case "file_name":
+        this.setState({ fileName: value });
+
+        break;
+
+      default:
+        break;
+    }
     this.formatToUrl();
   };
 
   formatToUrl = () => {
     console.log("formatToUrl");
-    this.setState({
-      banners: this.props.banners.map(banner => {
+    this.setState((state, props) => ({
+      banners: props.banners.map(banner => {
         const url = banner.url
-          .replace("##FLOOR_NAME##", this.state.selectedFloor)
-          .replace("##FILE_NAME##", this.state.fileName);
+          .replace("##FLOOR_NAME##", state.selectedFloor)
+          .replace("##FILE_NAME##", state.fileName);
         return {
           ...banner,
           url
         };
       })
-    });
+    }));
   };
 
   render() {
     return (
       <div>
+        {/* サムネイルボタン */}
+        <RadioButton
+          arr={this.props.thumbnailExtentions}
+          name="thumbnail"
+          handleChange={this.handleChange}
+        />
+
         {/* フロアボタン */}
-        <Floors
-          floors={this.props.floors}
-          handleChangeFloor={this.handleChangeFloor}
+        <RadioButton
+          arr={this.props.floors}
+          name="floor"
+          handleChange={this.handleChange}
         />
 
         {/* サイズボタン */}
@@ -149,6 +170,7 @@ class Monkfish extends Component {
           <input
             type="text"
             placeholder="ファイル名"
+            name="file_name"
             onChange={this.handleChange}
           />
         </div>
@@ -159,6 +181,7 @@ class Monkfish extends Component {
 
 Monkfish.defaultProps = {
   floors: ["car", "pc", "food"],
+  thumbnailExtentions: ["png", "jpg", "gif"],
   banners: [
     {
       id: uuid(),
@@ -175,13 +198,22 @@ Monkfish.defaultProps = {
     {
       id: uuid(),
       size: "300 x 300",
-      url: "http://300 x 300_##FLOOR_NAME##__##FILE_NAME##",
+      url: "http://300 x 300_##FLOOR_NAME##__##FILE_NAME##___##EXTENTION##",
+      shouldHide: []
+    },
+    {
+      // 拡張子の変更ができるとき
+      id: uuid(),
+      size: "400 x 400",
+      url:
+        "http://400 x 400_##FLOOR_NAME##__##FILE_NAME##___##THUMBNAIL_EXTENTION##",
       shouldHide: []
     }
   ],
   selectedSizes: [],
   selectedFloor: "",
-  fileName: ""
+  fileName: "",
+  selectedThumbnailExtentions: ""
 };
 
 export default Monkfish;
