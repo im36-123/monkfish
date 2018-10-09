@@ -123,21 +123,26 @@ class Monkfish extends Component {
     console.log("formatToUrl");
     this.setState((state, props) => ({
       banners: props.banners.map(banner => {
+        const { bannerName, selectedThumbnailExtention, selectedFloor } = state;
         const reg = /(.*)(?:\.([^.]+$))/;
-        const fileName = reg.test(state.bannerName)
-          ? state.bannerName.match(reg)[1]
-          : state.bannerName;
-        const fileExtention = reg.test(state.bannerName)
-          ? `.${state.bannerName.match(reg)[2]}`
+        const regMatch = reg.test(bannerName);
+
+        const fileName = regMatch ? bannerName.match(reg)[1] : bannerName;
+
+        const fileExtention = regMatch
+          ? `.${bannerName.match(reg)[2]}`
           : undefined;
-        const thumbnailExtention = state.selectedThumbnailExtention
-          ? `.${state.selectedThumbnailExtention}`
+
+        const thumbnailExtention = selectedThumbnailExtention
+          ? `.${selectedThumbnailExtention}`
           : fileExtention;
+
         const url = banner.url
-          .replace("##FLOOR_NAME##", state.selectedFloor)
+          .replace("##FLOOR_NAME##", selectedFloor)
           .replace("##FILE_NAME##", fileName)
           .replace("##EXTENTION##", fileExtention)
           .replace("##THUMBNAIL_EXTENTION##", thumbnailExtention);
+
         return {
           ...banner,
           url
