@@ -132,17 +132,15 @@ class Monkfish extends Component {
     this.setState((state, props) => ({
       banners: props.banners.map(banner => {
         const { bannerName, selectedThumbnailExtention, selectedFloor } = state;
-        const reg = /(.*)(?:\.([^.]+$))/;
+        const reg = /(.*)(\.[^.]+$)/;
         const regMatch = reg.test(bannerName);
 
         const fileName = regMatch ? bannerName.match(reg)[1] : bannerName;
 
-        const fileExtention = regMatch
-          ? `.${bannerName.match(reg)[2]}`
-          : undefined;
+        const fileExtention = regMatch ? bannerName.match(reg)[2] : undefined;
 
         const thumbnailExtention = selectedThumbnailExtention
-          ? `.${selectedThumbnailExtention}`
+          ? selectedThumbnailExtention
           : fileExtention;
 
         const url = banner.url
