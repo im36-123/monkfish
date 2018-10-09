@@ -1,79 +1,11 @@
 import React, { Component } from "react";
 import uuid from "uuid";
+import RadioButton from "./RadioButton";
+import Sizes from "./Sizes";
+import Banners from "./Banners";
+import InputFileName from "./InputFileName";
+
 import "../styles/style.css";
-
-const RadioButton = props => {
-  return (
-    <div>
-      {props.arr.map(item => {
-        return (
-          <label key={item}>
-            <input
-              type="radio"
-              name={props.name}
-              value={item}
-              onClick={props.handleChange}
-            />
-            {item}
-          </label>
-        );
-      })}
-    </div>
-  );
-};
-
-const Sizes = props => (
-  <div>
-    {props.banners.map(({ id, size, shouldHide }) => {
-      return (
-        <label
-          key={id}
-          className={
-            shouldHide.includes(props.selectedFloor) ? "is-hide" : undefined
-          }
-        >
-          <input
-            type="checkbox"
-            name="size"
-            value={id}
-            onClick={props.handlePick}
-          />
-          {size}
-        </label>
-      );
-    })}
-  </div>
-);
-
-const Banners = props => (
-  <div>
-    {props.banners
-      .filter(({ id, shouldHide }) => {
-        const selectedSizesMatch = props.selectedSizes.includes(id);
-        const shouldHideMatch = !shouldHide.includes(props.selectedFloor);
-
-        return selectedSizesMatch && shouldHideMatch;
-      })
-      .map(({ id, url }) => {
-        return (
-          <div key={id}>
-            <p>{url}</p>
-          </div>
-        );
-      })}
-  </div>
-);
-
-const InputFileName = props => (
-  <div>
-    <input
-      type="text"
-      placeholder="ファイル名"
-      name="banner_name"
-      onChange={props.handleChange}
-    />
-  </div>
-);
 
 class Monkfish extends Component {
   constructor(props) {
@@ -110,15 +42,14 @@ class Monkfish extends Component {
     switch (name) {
       case "thumbnail":
         this.setState({ selectedThumbnailExtention: value });
-
         break;
+
       case "floor":
         this.setState({ selectedFloor: value });
-
         break;
+
       case "banner_name":
         this.setState({ bannerName: value });
-
         break;
 
       default:
