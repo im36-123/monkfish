@@ -64,6 +64,17 @@ const Banners = props => (
   </div>
 );
 
+const InputFileName = props => (
+  <div>
+    <input
+      type="text"
+      placeholder="ファイル名"
+      name="banner_name"
+      onChange={props.handleChange}
+    />
+  </div>
+);
+
 class Monkfish extends Component {
   constructor(props) {
     super(props);
@@ -183,14 +194,7 @@ class Monkfish extends Component {
         />
 
         {/* 文字入力 */}
-        <div>
-          <input
-            type="text"
-            placeholder="ファイル名"
-            name="banner_name"
-            onChange={this.handleChange}
-          />
-        </div>
+        <InputFileName handleChange={this.handleChange} />
       </div>
     );
   }
@@ -209,13 +213,13 @@ Monkfish.defaultProps = {
     {
       id: uuid(),
       size: "200 x 200",
-      url: "http://200 x 200_##FLOOR_NAME##__##FILE_NAME##",
+      url: "http://200 x 200_##FLOOR_NAME##__##FILE_NAME####EXTENTION##",
       shouldHide: []
     },
     {
       id: uuid(),
       size: "300 x 300",
-      url: "http://300 x 300_##FLOOR_NAME##__##FILE_NAME##___##EXTENTION##",
+      url: "http://300 x 300_##FLOOR_NAME##__##FILE_NAME##prefix##EXTENTION##",
       shouldHide: []
     },
     {
