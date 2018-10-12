@@ -8,9 +8,38 @@ import {
 import Monkfish from "../components/Monkfish";
 import uuid from "uuid";
 
-const AppRouter = () => {
-  // TODO: 冗長なので、リファクタリングする
-  const defaultPropsForCom = {
+const AppRouter = props => {
+  return (
+    <Router>
+      <div>
+        <div>
+          <header>
+            <NavLink to="/" exact>
+              com
+            </NavLink>
+            <NavLink to="/cojp">co.jp</NavLink>
+          </header>
+        </div>
+        <Switch>
+          <Route
+            path="/"
+            render={() => <Monkfish banners={props.com.banners} />}
+            key="com"
+            exact
+          />
+          <Route
+            path="/cojp"
+            key="cojp"
+            render={() => <Monkfish banners={props.cojp.banners} />}
+          />
+        </Switch>
+      </div>
+    </Router>
+  );
+};
+
+AppRouter.defaultProps = {
+  com: {
     banners: [
       {
         id: uuid(),
@@ -39,8 +68,8 @@ const AppRouter = () => {
         shouldHide: []
       }
     ]
-  };
-  const defaultPropsForCojp = {
+  },
+  cojp: {
     banners: [
       {
         id: uuid(),
@@ -69,34 +98,7 @@ const AppRouter = () => {
         shouldHide: []
       }
     ]
-  };
-  return (
-    <Router>
-      <div>
-        <div>
-          <header>
-            <NavLink to="/" exact>
-              com
-            </NavLink>
-            <NavLink to="/cojp">co.jp</NavLink>
-          </header>
-        </div>
-        <Switch>
-          <Route
-            path="/"
-            render={() => <Monkfish banners={defaultPropsForCom.banners} />}
-            key="com"
-            exact
-          />
-          <Route
-            path="/cojp"
-            key="cojp"
-            render={() => <Monkfish banners={defaultPropsForCojp.banners} />}
-          />
-        </Switch>
-      </div>
-    </Router>
-  );
+  }
 };
 
 export default AppRouter;

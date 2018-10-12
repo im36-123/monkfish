@@ -20,43 +20,6 @@ class Monkfish extends Component {
     console.log("prevState: ", prevState);
   }
 
-  handlePick = e => {
-    const { value } = e.target;
-
-    this.setState(prevState => {
-      return {
-        selectedSizes: prevState.selectedSizes.includes(value)
-          ? prevState.selectedSizes.filter(element => element !== value)
-          : prevState.selectedSizes.concat([value])
-      };
-    });
-    this.formatToUrl();
-  };
-
-  handleChange = e => {
-    const value = e.target.value;
-    const name = e.target.name;
-    console.log(value);
-
-    switch (name) {
-      case "thumbnail":
-        this.setState({ selectedThumbnailExtention: value });
-        break;
-
-      case "floor":
-        this.setState({ selectedFloor: value });
-        break;
-
-      case "banner_name":
-        this.setState({ bannerName: value });
-        break;
-
-      default:
-        break;
-    }
-    this.formatToUrl();
-  };
-
   formatToUrl = () => {
     console.log("formatToUrl");
     this.setState((state, props) => ({
@@ -90,36 +53,24 @@ class Monkfish extends Component {
   render() {
     return (
       <div>
+        {/* 文字入力 */}
+        <InputFileName handleChange={this.handleChange} />
+
         {/* サムネイルボタン */}
-        <RadioButton
-          arr={this.props.thumbnailExtentions}
-          name="thumbnail"
-          handleChange={this.handleChange}
-        />
+        <RadioButton arr={this.props.thumbnailExtentions} name="thumbnail" />
 
         {/* フロアボタン */}
-        <RadioButton
-          arr={this.props.floors}
-          name="floor"
-          handleChange={this.handleChange}
-        />
+        <RadioButton arr={this.props.floors} name="floor" />
 
         {/* サイズボタン */}
-        <Sizes
-          banners={this.state.banners}
-          selectedFloor={this.state.selectedFloor}
-          handlePick={this.handlePick}
-        />
+        <Sizes banners={this.props.banners} />
 
         {/* URL を表示する */}
         <Banners
-          banners={this.state.banners}
+          banners={this.props.banners}
           selectedSizes={this.state.selectedSizes}
           selectedFloor={this.state.selectedFloor}
         />
-
-        {/* 文字入力 */}
-        <InputFileName handleChange={this.handleChange} />
       </div>
     );
   }

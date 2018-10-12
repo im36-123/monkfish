@@ -1,22 +1,28 @@
 import React from "react";
+import { connect } from "react-redux";
+import selectBnners from "../selectors/selector";
 
 const Banners = props => (
   <div>
-    {props.banners
-      .filter(({ id, shouldHide }) => {
-        const selectedSizesMatch = props.selectedSizes.includes(id);
-        const shouldHideMatch = !shouldHide.includes(props.selectedFloor);
-
-        return selectedSizesMatch && shouldHideMatch;
-      })
-      .map(({ id, url }) => {
-        return (
-          <div key={id}>
-            <p>{url}</p>
-          </div>
-        );
-      })}
+    {props.banners.map(({ id, url }) => {
+      return (
+        <div key={id}>
+          <p>{url}</p>
+        </div>
+      );
+    })}
   </div>
 );
 
-export default Banners;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...state,
+    banners: selectBnners(
+      ownProps.banners,
+      state.selectedSizes,
+      state.selectedFloor
+    )
+  };
+};
+
+export default connect(mapStateToProps)(Banners);
