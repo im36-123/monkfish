@@ -20,7 +20,9 @@ const mapStateToProps = (state, ownProps) => {
     banners: selectBnners(
       ownProps.banners,
       state.selectedSizes,
-      state.selectedFloor
+      state.selectedFloor,
+      state.bannerName,
+      state.selectedThumbnailExtention
     )
   };
 };
