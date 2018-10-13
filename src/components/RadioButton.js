@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 class RadioButton extends Component {
-  state = {};
-
   handleChange = e => {
     const { name } = this.props;
     const { value } = e.target;
