@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import RadioButton from "../containers/RadioButtons";
+import RadioButtons from "../containers/RadioButtons";
 import Sizes from "../containers/Sizes";
 import Banners from "../containers/Banners";
 import InputFileName from "../containers/InputFileName";
@@ -14,10 +14,10 @@ class Monkfish extends Component {
         <InputFileName />
 
         {/* サムネイルボタン */}
-        <RadioButton arr={this.props.thumbnailExtentions} name="thumbnail" />
+        <RadioButtons arr={this.props.thumbnailExtentions} name="thumbnail" />
 
         {/* フロアボタン */}
-        <RadioButton arr={this.props.floors} name="floor" />
+        <RadioButtons arr={this.props.floors} name="floor" />
 
         {/* サイズボタン */}
         <Sizes banners={this.props.banners} />

@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { setFloor, setThumbnailExtention } from "../actions/action";
-import RadioButton from "../components/RadioButtons";
+import RadioButtons from "../components/RadioButtons";
 
 const mapDispatchToProps = dispatch => ({
   setFloor: value => {
@@ -14,4 +14,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(RadioButton);
+)(RadioButtons);
