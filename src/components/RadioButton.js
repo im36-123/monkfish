@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
+import { setFloor, setThumbnailExtention } from "../actions/action";
 class RadioButton extends Component {
   handleChange = e => {
     const { name } = this.props;
@@ -35,10 +35,10 @@ class RadioButton extends Component {
 
 const mapDispatchToProps = dispatch => ({
   setFloor: value => {
-    dispatch({ type: "SET_FLOOR", value });
+    dispatch(setFloor(value));
   },
   setThumbnailExtention: value => {
-    dispatch({ type: "SET_THUMBNAIL_EXTENTION", value });
+    dispatch(setThumbnailExtention(value));
   }
 });
 
