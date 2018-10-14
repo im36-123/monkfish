@@ -43,11 +43,7 @@ class Monkfish extends Component {
 
 Monkfish.defaultProps = {
   floors: ["car", "pc", "food"],
-  thumbnailExtentions: ["png", "jpg", "gif"],
-  selectedSizes: [],
-  selectedFloor: "",
-  bannerName: "",
-  selectedThumbnailExtention: ""
+  thumbnailExtentions: ["png", "jpg", "gif"]
 };
 
 export default Monkfish;
