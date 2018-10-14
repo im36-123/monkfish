@@ -7,19 +7,11 @@ import InputFileName from "./InputFileName";
 import "../styles/style.css";
 
 class Monkfish extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      banners: [],
-      selectedSizes: []
-    };
-  }
-
   render() {
     return (
       <div>
         {/* 文字入力 */}
-        <InputFileName handleChange={this.handleChange} />
+        <InputFileName />
 
         {/* サムネイルボタン */}
         <RadioButton arr={this.props.thumbnailExtentions} name="thumbnail" />
@@ -31,11 +23,7 @@ class Monkfish extends Component {
         <Sizes banners={this.props.banners} />
 
         {/* URL を表示する */}
-        <Banners
-          banners={this.props.banners}
-          selectedSizes={this.state.selectedSizes}
-          selectedFloor={this.state.selectedFloor}
-        />
+        <Banners banners={this.props.banners} />
       </div>
     );
   }
