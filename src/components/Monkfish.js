@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import RadioButton from "../containers/RadioButton";
+import RadioButton from "../containers/RadioButtons";
 import Sizes from "../containers/Sizes";
 import Banners from "../containers/Banners";
 import InputFileName from "../containers/InputFileName";
