@@ -1,6 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
-import { pickBannerSize } from "../actions/action";
+
 const Sizes = props => {
   console.log("props", props);
   return (
@@ -26,17 +25,4 @@ const Sizes = props => {
     </div>
   );
 };
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    ...ownProps,
-    pickBannerSize: value => {
-      dispatch(pickBannerSize(value));
-    }
-  };
-};
-
-export default connect(
-  state => state,
-  mapDispatchToProps
-)(Sizes);
+export default Sizes;

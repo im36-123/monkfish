@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import RadioButton from "./RadioButton";
-import Sizes from "./Sizes";
-import Banners from "./Banners";
-import InputFileName from "./InputFileName";
+import RadioButton from "../containers/RadioButton";
+import Sizes from "../containers/Sizes";
+import Banners from "../containers/Banners";
+import InputFileName from "../containers/InputFileName";
 
 import "../styles/style.css";
 

@@ -1,6 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
-import { setBannerName } from "../actions/action";
 
 const InputFileName = props => (
   <div>
@@ -13,13 +11,4 @@ const InputFileName = props => (
   </div>
 );
 
-const mapDispatchToProps = dispatch => ({
-  setBannerName: value => {
-    dispatch(setBannerName(value));
-  }
-});
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(InputFileName);
+export default InputFileName;
